@@ -5,9 +5,9 @@ function App() {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch("/api")
+    fetch("/posts/allPost")
       .then((res) => res.json())
-      .then((data) => setData(data.message));
+      .then((data) => setData(data[0].data.body));
   }, []);
 
   return (
