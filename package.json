@@ -1,0 +1,28 @@
+{
+  "name": "gruppprojekt-forum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run start\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msalomonsson/projekt-forum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msalomonsson/projekt-forum/issues"
+  },
+  "homepage": "https://github.com/msalomonsson/projekt-forum#readme",
+  "dependencies": {
+    "concurrently": "^6.4.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {}
+}
