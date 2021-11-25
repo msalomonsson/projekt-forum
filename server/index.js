@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+  res.json({ message: "Hello from Max!" });
 });
 
 app.listen(PORT, () => {
