@@ -7,13 +7,19 @@ function App() {
   React.useEffect(() => {
     fetch("/posts/allPost")
       .then((res) => res.json())
-      .then((data) => setData(data[0].data.body));
+      .then((data) => setData(data));
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>{!data ? "Loading..." : data}</p>
+        <ul>
+          {!data
+            ? "Loading..."
+            : data.map((doc) => {
+                return <li key={doc.id}>{doc.data.body}</li>;
+              })}
+        </ul>
       </header>
     </div>
   );

@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get("/allPost", postsController.getPosts);
 
+router.post("/savePost", postsController.savePost);
+
 router.get("/", (req, res) => {
   res.send("Posts Api");
 });
