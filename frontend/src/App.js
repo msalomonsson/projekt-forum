@@ -7,7 +7,7 @@ function App() {
   React.useEffect(() => {
     fetch("/posts/allPost")
       .then((res) => res.json())
-      .then((data) => setData(data[0].data.body));
+      .then((data) => setData(data[0].data.title));
   }, []);
 
   return (

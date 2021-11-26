@@ -1,27 +1,36 @@
-const firestore = require("firebase/firestore/lite");
-const firebase = require("../firebase");
-const db = firestore.getFirestore(firebase);
+const db = require("../firebase");
+const { Timestamp } = require("firebase-admin/firestore");
 
 module.exports = class Post {
-  constructor(title, body, likes, comments, user) {
-    (this.title = title),
-      (this.body = body),
-      (this.likes = likes),
-      (this.comments = comments),
-      (this.user = user);
+  constructor({ title, body, user }) {
+    (this.title = title), (this.body = body), (this.user = user);
   }
 
   static fetchAll = async () => {
-    const data = firestore.collection(db, "posts");
+    const snapshot = await db.collection("posts").get();
 
-    const postSnapShot = await firestore.getDocs(data);
+    let data = [];
 
-    const postList = postSnapShot.docs.map((doc) => {
-      return { data: doc.data(), id: doc.id };
+    snapshot.forEach((doc) => {
+      data.push({ data: doc.data(), id: doc.id });
+      console.log(doc.id, " => ", doc.data());
     });
 
-    return postList;
+    return data;
   };
 
-  savePost = async () => {};
+  savePost = async () => {
+    let data = {
+      title: this.title,
+      body: this.body,
+      user_id: this.user,
+      likes: 0,
+      comments: null,
+      createad_at: Timestamp.now(),
+    };
+
+    const docRef = db.collection("posts").doc();
+
+    await docRef.set(data);
+  };
 };

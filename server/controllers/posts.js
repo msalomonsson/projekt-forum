@@ -7,11 +7,15 @@ exports.getPosts = async (req, res) => {
 };
 
 exports.savePost = async (req, res) => {
-  const post = new postModule(
-    "my second post",
-    "this is body",
-    3,
-    0,
-    "dasd2313"
-  );
+  let data = req.body;
+
+  console.log(data);
+
+  const post = new postModule(data);
+
+  console.log(post);
+
+  post.savePost();
+
+  res.send("post was succes");
 };

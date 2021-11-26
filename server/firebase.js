@@ -1,15 +1,20 @@
-const firebase = require("firebase/app");
+const {
+  initializeApp,
+  applicationDefault,
+  cert,
+} = require("firebase-admin/app");
+const {
+  getFirestore,
+  Timestamp,
+  FieldValue,
+} = require("firebase-admin/firestore");
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAzdrNKMtvuxy1N3S7bWcZH-PBrpMUis0Y",
-  authDomain: "forum-6ad4a.firebaseapp.com",
-  projectId: "forum-6ad4a",
-  storageBucket: "forum-6ad4a.appspot.com",
-  messagingSenderId: "181993892239",
-  appId: "1:181993892239:web:51ac1c49e325258bc8c3fa",
-};
+const serviceAccount = require("./forum-6ad4a-9b071f9b1b6f.json");
 
-// Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
+initializeApp({
+  credential: cert(serviceAccount),
+});
 
-module.exports = app;
+const db = getFirestore();
+
+module.exports = db;
