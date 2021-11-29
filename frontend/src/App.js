@@ -10,6 +10,7 @@ function App() {
       .then((data) => setData(data));
   }, []);
 
+  //test hej
   return (
     <div className="App">
       <header className="App-header">
@@ -17,8 +18,8 @@ function App() {
           {!data
             ? "Loading..."
             : data.map((doc) => {
-                return <li key={doc.id}>{doc.data.body}</li>;
-              })}
+              return <li key={doc.id}>{doc.data.body}</li>;
+            })}
         </ul>
       </header>
     </div>
