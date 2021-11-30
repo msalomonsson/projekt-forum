@@ -1,27 +1,15 @@
 import "./App.css";
 import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
-  const [data, setData] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("/posts/allPost")
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
-
   //test hej
   return (
     <div className="App">
-      <header className="App-header">
-        <ul>
-          {!data
-            ? "Loading..."
-            : data.map((doc) => {
-              return <li key={doc.id}>{doc.data.body}</li>;
-            })}
-        </ul>
-      </header>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+      </Routes>
     </div>
   );
 }
