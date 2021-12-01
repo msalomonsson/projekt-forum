@@ -11,7 +11,6 @@ export default function Home() {
     if (posts) {
       return;
     }
-
     request({ url: "/posts/allPost" }, storePosts);
   }, [posts, request]);
 
@@ -29,7 +28,13 @@ export default function Home() {
       <ul>
         {posts &&
           posts.map((post) => {
-            return <li key={post.id}>{post.data.title}</li>;
+            return (
+              <li key={post.id}>
+                {post.data.title}
+                <br />
+                {post.data.body}
+              </li>
+            );
           })}
       </ul>
     </div>
