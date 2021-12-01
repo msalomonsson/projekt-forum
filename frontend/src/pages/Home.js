@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import useHttp from "../utils/apiHttp";
 import { storePosts } from "../redux/postSlice";
+import Post from "../components/Post";
 
 export default function Home() {
   const { loading, error, request } = useHttp();
@@ -25,18 +26,10 @@ export default function Home() {
   return (
     <div>
       <h1>Home</h1>
-      <ul>
-        {posts &&
-          posts.map((post) => {
-            return (
-              <li key={post.id}>
-                {post.data.title}
-                <br />
-                {post.data.body}
-              </li>
-            );
-          })}
-      </ul>
+      {posts != null &&
+        posts.map((element) => {
+          return <Post key={element.id} data={element} />;
+        })}
     </div>
   );
 }
