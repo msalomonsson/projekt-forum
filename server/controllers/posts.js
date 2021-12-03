@@ -29,6 +29,22 @@ exports.savePost = async (req, res) => {
       id: data.id,
       time: time(),
     };
+
+
     res.json(response);
   });
+};
+
+exports.deletePost = async (req, res) => {
+  let id = req.params.id;
+
+  postModule.deletePost(id);
+
+  res.json(id);
+
+  // res.send(`Deleted post with id: ${id}`);
+
+    
+  });
+
 };

@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 function App() {
   //test hej
   return (
-    <div className="App">
+    <div className="App bg-background min-h-screen">
       <Routes>
         <Route exact path="/" element={<Home />} />
       </Routes>

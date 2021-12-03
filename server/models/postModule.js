@@ -2,8 +2,11 @@ const db = require("../firebase");
 const { Timestamp } = require("firebase-admin/firestore");
 
 module.exports = class Post {
-  constructor({ title, body, user }) {
-    (this.title = title), (this.body = body), (this.user = user);
+  constructor({ title, body, user, id }) {
+    (this.title = title),
+      (this.body = body),
+      (this.user = user),
+      (this.id = id);
   }
 
   static fetchAll = async () => {
@@ -12,8 +15,23 @@ module.exports = class Post {
     let data = [];
 
     snapshot.forEach((doc) => {
-      data.push({ data: doc.data(), id: doc.id });
-      console.log(doc.id, " => ", doc.data());
+      let time = () => {
+        let stringified = doc
+          .data()
+          .createad_at.toDate()
+          .toLocaleString("sv", { timeZoneName: "short" });
+        var split1 = stringified.split("T");
+        var split1 = stringified.split("CE");
+        var date = split1[0].replace(/\-/g, "-");
+
+        return date;
+      };
+
+      data.push({
+        data: doc.data(),
+        id: doc.id,
+        time: time(),
+      });
     });
 
     return data;
@@ -34,5 +52,15 @@ module.exports = class Post {
     await docRef.set(data);
 
     return await docRef.get((doc) => {});
+
+  };
+
+  static deletePost = async (id) => {
+    console.log(id);
+
+    const res = db.collection("posts").doc(id);
+
+    await res.delete();
+
   };
 };
