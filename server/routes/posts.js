@@ -8,6 +8,8 @@ router.get("/allPost", postsController.getPosts);
 
 router.post("/savePost", postsController.savePost);
 
+router.delete("/deletePost/:id", postsController.deletePost);
+
 router.get("/", (req, res) => {
   res.send("Posts Api");
 });

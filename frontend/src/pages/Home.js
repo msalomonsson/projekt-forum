@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="">
       <h1>Home</h1>
       {posts != null &&
         posts.map((element) => {

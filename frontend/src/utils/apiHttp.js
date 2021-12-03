@@ -10,6 +10,7 @@ const useHttp = () => {
     async (requestObj, dispatchFunc) => {
       setloading(true);
       seterror(null);
+      console.log(requestObj);
 
       try {
         const response = await fetch(requestObj.url, {
@@ -23,6 +24,8 @@ const useHttp = () => {
         }
 
         const data = await response.json();
+        console.log(data);
+
         dispatch(dispatchFunc(data));
       } catch (error) {
         seterror(error.message || "Something went wrong");
