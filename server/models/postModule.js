@@ -13,7 +13,6 @@ module.exports = class Post {
 
     snapshot.forEach((doc) => {
       data.push({ data: doc.data(), id: doc.id });
-      console.log(doc.id, " => ", doc.data());
     });
 
     return data;
