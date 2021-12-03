@@ -15,9 +15,6 @@ module.exports = class Post {
     let data = [];
 
     snapshot.forEach((doc) => {
-
-      data.push({ data: doc.data(), id: doc.id });
-
       let time = () => {
         let stringified = doc
           .data()
@@ -35,7 +32,6 @@ module.exports = class Post {
         id: doc.id,
         time: time(),
       });
-
     });
 
     return data;
@@ -56,7 +52,6 @@ module.exports = class Post {
     await docRef.set(data);
 
     return await docRef.get((doc) => {});
-
   };
 
   static deletePost = async (id) => {
@@ -65,6 +60,5 @@ module.exports = class Post {
     const res = db.collection("posts").doc(id);
 
     await res.delete();
-
   };
 };

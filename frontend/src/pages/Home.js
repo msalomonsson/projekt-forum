@@ -39,8 +39,8 @@ export default function Home() {
       {show && <CreatePost setShow={setShow} />}
 
       {posts != null &&
-        posts.map((element) => {
-          return <Post key={element.id} data={element} />;
+        posts.map((element, i) => {
+          return <Post key={i} data={element} />;
         })}
     </div>
   );
