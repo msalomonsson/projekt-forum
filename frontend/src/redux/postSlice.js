@@ -11,6 +11,7 @@ export const postSlice = createSlice({
     storePosts: (state, action) => {
       state.posts = action.payload;
     },
+
     deletePost: (state, action) => {
       console.log(action.payload);
 
@@ -22,12 +23,17 @@ export const postSlice = createSlice({
 
       state.posts = posts;
     },
+
+
     savePost: (state, action) => {
       state.posts.push(action.payload);
     },
   },
 });
 
+
 export const { storePosts, deletePost, savePost } = postSlice.actions;
+
+
 
 export default postSlice.reducer;

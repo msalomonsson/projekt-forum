@@ -52,6 +52,7 @@ module.exports = class Post {
     await docRef.set(data);
 
     return await docRef.get((doc) => {});
+
   };
 
   static deletePost = async (id) => {
@@ -60,5 +61,6 @@ module.exports = class Post {
     const res = db.collection("posts").doc(id);
 
     await res.delete();
+
   };
 };

@@ -25,7 +25,6 @@ const useHttp = () => {
 
         const data = await response.json();
         console.log(data);
-
         dispatch(dispatchFunc(data));
       } catch (error) {
         seterror(error.message || "Something went wrong");
