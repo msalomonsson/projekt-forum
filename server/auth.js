@@ -27,10 +27,11 @@ passport.use(
         const newUser = new User(
           profile._json.family_name,
           profile._json.given_name,
-          profile._json.email
+          profile._json.email,
+          profile.id
         );
 
-        await newUser.saveUser({ id: profile.id });
+        await newUser.saveUser();
 
         return done(null, newUser);
       } else {
