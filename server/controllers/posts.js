@@ -30,7 +30,6 @@ exports.savePost = async (req, res) => {
       time: time(),
     };
 
-
     res.json(response);
   });
 };
@@ -43,8 +42,4 @@ exports.deletePost = async (req, res) => {
   res.json(id);
 
   // res.send(`Deleted post with id: ${id}`);
-
-    
-  });
-
 };

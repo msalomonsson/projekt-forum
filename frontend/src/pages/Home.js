@@ -7,7 +7,6 @@ import Post from "../components/Post";
 
 import CreatePost from "../components/CreatePost";
 
-
 export default function Home() {
   const { loading, error, request } = useHttp();
   const posts = useSelector((state) => state.post.posts);
@@ -31,12 +30,6 @@ export default function Home() {
   return (
     <div className="">
       <h1>Home</h1>
-
-      {posts != null &&
-        posts.map((element) => {
-          return <Post key={element.id} data={element} />;
-        })}
-
       <button
         className="bg-green-700 text-white my-8 py-2 px-4 rounded shadow-md"
         onClick={() => setShow(true)}
@@ -45,6 +38,10 @@ export default function Home() {
       </button>
       {show && <CreatePost setShow={setShow} />}
 
+      {posts != null &&
+        posts.map((element) => {
+          return <Post key={element.id} data={element} />;
+        })}
     </div>
   );
 }

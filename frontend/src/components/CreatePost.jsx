@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import useHttp from "../utils/apiHttp";
 import { savePost } from "../redux/postSlice";
 
@@ -6,6 +6,14 @@ function CreatePost({ setShow }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const { request } = useHttp();
+  const mounted = useRef(true);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -16,19 +24,21 @@ function CreatePost({ setShow }) {
     console.log("click");
     const newPost = { title: title, body: body, user: "jdhaja726gh" };
 
-    request(
-      {
-        url: "/posts/savePost",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
+    if (mounted.current) {
+      request(
+        {
+          url: "/posts/savePost",
+          method: "POST",
+          headers: {
+            Accept: "application/json",
 
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
+          },
+          body: newPost,
         },
-        body: newPost,
-      },
-      savePost
-    );
+        savePost
+      );
+    }
 
     setTitle("");
     setBody("");
