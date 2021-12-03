@@ -9,13 +9,26 @@ exports.getPosts = async (req, res) => {
 exports.savePost = async (req, res) => {
   let data = req.body;
 
-  console.log(data);
-
   const post = new postModule(data);
 
-  console.log(post);
+  post.savePost().then((data) => {
+    let time = () => {
+      let stringified = data
+        .data()
+        .createad_at.toDate()
+        .toLocaleString("sv", { timeZoneName: "short" });
+      var split1 = stringified.split("T");
+      var split1 = stringified.split("CE");
+      var date = split1[0].replace(/\-/g, "-");
 
-  post.savePost();
+      return date;
+    };
 
-  res.send("post was succes");
+    let response = {
+      data: data.data(),
+      id: data.id,
+      time: time(),
+    };
+    res.json(response);
+  });
 };

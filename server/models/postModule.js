@@ -32,5 +32,7 @@ module.exports = class Post {
     const docRef = db.collection("posts").doc();
 
     await docRef.set(data);
+
+    return await docRef.get((doc) => {});
   };
 };
