@@ -18,7 +18,7 @@ function App() {
       request({ url: "/auth/success" }, storeUser);
     }
   }, [request, user]);
-  //test hej
+
   return (
     <div className="App bg-background min-h-screen">
       <Routes>

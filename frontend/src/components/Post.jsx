@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import useHttp from "../utils/apiHttp";
 import { deletePost, savePost } from "../redux/postSlice";
+import { useSelector } from "react-redux";
 
 const Post = (props) => {
   const { request } = useHttp();
   const mounted = useRef(true);
+  const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
     mounted.current = true;
@@ -67,10 +69,12 @@ const Post = (props) => {
             <button>Comments</button>
             <button>Like</button>
           </div>
-          <div className="flex gap-5">
-            <button onClick={handlePost}>Edit</button>
-            <button onClick={handleClick}>Delete</button>
-          </div>
+          {user.id === props.data.data.user_id ? (
+            <div className="flex gap-5">
+              <button onClick={handlePost}>Edit</button>
+              <button onClick={handleClick}>Delete</button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import useHttp from "../utils/apiHttp";
 import { savePost } from "../redux/postSlice";
+import { useSelector } from "react-redux";
 
 function CreatePost({ setShow }) {
+  const user = useSelector((state) => state.user.user);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const { request } = useHttp();
@@ -22,7 +24,7 @@ function CreatePost({ setShow }) {
       return;
     }
     console.log("click");
-    const newPost = { title: title, body: body, user: "jdhaja726gh" };
+    const newPost = { title: title, body: body, user: user.id };
 
     if (mounted.current) {
       request(
