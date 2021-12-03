@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useHttp from "../utils/apiHttp";
 import { deletePost, savePost } from "../redux/postSlice";
 import { useSelector } from "react-redux";
@@ -7,13 +7,17 @@ const Post = (props) => {
   const { request } = useHttp();
   const mounted = useRef(true);
   const user = useSelector((state) => state.user.user);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     mounted.current = true;
+
+    request({ url: `/auth/findUser/${props.data.data.user_id}` }, setName);
+
     return () => {
       mounted.current = false;
     };
-  }, []);
+  }, [props.data.data.user_id, request]);
 
   const handleClick = (e) => {
     let id = props.data.id;
@@ -54,7 +58,7 @@ const Post = (props) => {
           </div>
           <div>
             <div className="flex gap-5 ">
-              <h2>Martin Salomonsson</h2>
+              <h2>{name && name.firstName + " " + name.lastName}</h2>
               <h5>{props.data.time}</h5>
             </div>
             <h1 className="text-2xl font-bold my-5">{props.data.data.title}</h1>
@@ -69,7 +73,7 @@ const Post = (props) => {
             <button>Comments</button>
             <button>Like</button>
           </div>
-          {user.id === props.data.data.user_id ? (
+          {user && user.id === props.data.data.user_id ? (
             <div className="flex gap-5">
               <button onClick={handlePost}>Edit</button>
               <button onClick={handleClick}>Delete</button>
