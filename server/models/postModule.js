@@ -15,6 +15,9 @@ module.exports = class Post {
     let data = [];
 
     snapshot.forEach((doc) => {
+
+      data.push({ data: doc.data(), id: doc.id });
+
       let time = () => {
         let stringified = doc
           .data()
@@ -32,6 +35,7 @@ module.exports = class Post {
         id: doc.id,
         time: time(),
       });
+
     });
 
     return data;
