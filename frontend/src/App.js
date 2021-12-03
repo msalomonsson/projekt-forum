@@ -20,7 +20,7 @@ function App() {
   }, [request, user]);
   //test hej
   return (
-    <div className="App">
+    <div className="App bg-background min-h-screen">
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
