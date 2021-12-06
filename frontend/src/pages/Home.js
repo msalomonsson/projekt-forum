@@ -34,10 +34,10 @@ export default function Home() {
 
       <div className="flex justify-between items-center ">
         {/* Seach */}
-        <label className="w-full mr-2 relative">
+        <label className="w-full mr-5 relative">
           <input
             type="search"
-            className="border-2 border-gray-300 bg-white h-10  rounded-lg text-sm focus:outline-none font-black w-full"
+            className="border-2 border-gray-300 bg-white h-10  rounded-lg text-sm focus:outline-none  w-full"
             placeholder="Search"
             onChange={(e) => setSearch(e.target.value)}
           ></input>
@@ -58,14 +58,16 @@ export default function Home() {
         </label>
 
         {/* Create button */}
-        <div>
-          <button
-            className="bg-btnbg  text-black font-black ml-10 py-2 px-10 rounded shadow-md"
-            onClick={() => setShow(true)}
-          >
-            Create a post
-          </button>
-        </div>
+        {
+          <div>
+            <button
+              className="bg-btnbg  text-black font-bold h-10  px-14 rounded shadow-md"
+              onClick={() => setShow(true)}
+            >
+              Skapa
+            </button>
+          </div>
+        }
       </div>
 
       {show && <CreatePost setShow={setShow} />}

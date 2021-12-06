@@ -36,7 +36,7 @@ const Post = (props) => {
     <div className=" mx-auto ">
       <div className="mt-5 border-2 p-5 rounded bg-primary text-left ">
         {/* Post data */}
-        <div className="flex gap-5 font-bold">
+        <div className="flex gap-5 ">
           <div className="">
             <img
               className="inline-block h-10 w-10 rounded-full ring-2 ring-black"
@@ -62,7 +62,6 @@ const Post = (props) => {
         </div>
 
         {/* Buttons */}
-
         <div className="flex justify-between mt-20">
           <div className="flex gap-5">
             <button className="comment">

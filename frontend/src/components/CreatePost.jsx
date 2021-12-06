@@ -54,7 +54,7 @@ function CreatePost({ setShow }) {
 
   return (
     <form
-      className="bg-white md:w-4/5 border-4 border-black py-8 px-16 rounded-lg absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 font-bold"
+      className="bg-white w-full md:w-4/5 border-4 border-black py-8 px-16 rounded-lg absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 font-bold"
       onSubmit={onSubmit}
     >
       <div className="flex justify-between">
