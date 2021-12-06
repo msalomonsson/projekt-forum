@@ -1,19 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import useHttp from "../utils/apiHttp";
-import { savePost } from "../redux/postSlice";
+import { editPost } from "../redux/postSlice";
 
-function CreatePost({ setShow }) {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+function EditPost({ setShow, post }) {
+  const [title, setTitle] = useState(post.data.title);
+  const [body, setBody] = useState(post.data.body);
   const { request } = useHttp();
-  const mounted = useRef(true);
-
-  useEffect(() => {
-    mounted.current = true;
-    return () => {
-      mounted.current = false;
-    };
-  }, [mounted.current]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -21,24 +13,26 @@ function CreatePost({ setShow }) {
       alert("Add Title and body");
       return;
     }
+    const newPost = {
+      id: post.id,
+      title: title,
+      body: body,
+      user: "jdhaja726gh",
+    };
 
-    const newPost = { title: title, body: body, user: "jdhaja726gh" };
+    request(
+      {
+        url: `/posts/editPost/${post.id}`,
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
 
-    if (mounted.current) {
-      request(
-        {
-          url: "/posts/savePost",
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-
-            "Content-Type": "application/json",
-          },
-          body: newPost,
+          "Content-Type": "application/json",
         },
-        savePost
-      );
-    }
+        body: newPost,
+      },
+      editPost
+    );
 
     setTitle("");
     setBody("");
@@ -51,7 +45,7 @@ function CreatePost({ setShow }) {
       onSubmit={onSubmit}
     >
       <div className="flex justify-between">
-        <h3 className="uppercase">Create Post</h3>
+        <h3 className="uppercase">Edit Post</h3>
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -67,6 +61,7 @@ function CreatePost({ setShow }) {
         <input
           type="text"
           className="p-2"
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         ></input>
       </div>
@@ -75,6 +70,7 @@ function CreatePost({ setShow }) {
         <textarea
           rows="4"
           cols="50"
+          value={body}
           onChange={(e) => setBody(e.target.value)}
         ></textarea>
       </div>
@@ -88,4 +84,4 @@ function CreatePost({ setShow }) {
   );
 }
 
-export default CreatePost;
+export default EditPost;

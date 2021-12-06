@@ -1,12 +1,13 @@
 const db = require("../firebase");
 const { Timestamp } = require("firebase-admin/firestore");
+const { post } = require("../routes/posts");
 
 module.exports = class Post {
-  constructor({ title, body, user, id }) {
-    (this.title = title),
-      (this.body = body),
-      (this.user = user),
-      (this.id = id);
+  constructor(data) {
+    this.title = data.title;
+    this.body = data.body;
+    this.user = data.user;
+    this.id = data.id;
   }
 
   static fetchAll = async () => {
@@ -60,5 +61,15 @@ module.exports = class Post {
     const res = db.collection("posts").doc(id);
 
     await res.delete();
+  };
+
+  editPost = async () => {
+    let data = {
+      title: this.title,
+      body: this.body,
+    };
+    const postDoc = db.collection("posts").doc(this.id);
+    await postDoc.update(data);
+    return await postDoc.get((doc) => {});
   };
 };

@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useHttp from "../utils/apiHttp";
-import { deletePost, savePost } from "../redux/postSlice";
+import { deletePost } from "../redux/postSlice";
+import EditPost from "./EditPost";
 
 const Post = (props) => {
   const { request } = useHttp();
   const mounted = useRef(true);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     mounted.current = true;
@@ -18,23 +20,6 @@ const Post = (props) => {
 
     if (mounted.current) {
       request({ url: `posts/deletePost/${id}`, method: "DELETE" }, deletePost);
-    }
-  };
-
-  const handlePost = (e) => {
-    if (mounted.current) {
-      request(
-        {
-          url: `posts/savePost`,
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: { title: "Test", body: "Test body", user: "asdasd21412412421" },
-        },
-        savePost
-      );
     }
   };
 
@@ -68,7 +53,8 @@ const Post = (props) => {
             <button>Like</button>
           </div>
           <div className="flex gap-5">
-            <button onClick={handlePost}>Edit</button>
+            <button onClick={() => setShow(true)}>Edit</button>
+            {show && <EditPost setShow={setShow} post={props.data} />}
             <button onClick={handleClick}>Delete</button>
           </div>
         </div>
