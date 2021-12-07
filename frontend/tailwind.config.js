@@ -11,6 +11,7 @@ module.exports = {
         primary: "#FFFFFE",
         secondary: "#b8c1ec",
         btnbg: "#eebbc3",
+        transBg: "rgba(0, 0, 0, 0.65)",
       },
       tableLayout: ["hover", "focus"],
     },
