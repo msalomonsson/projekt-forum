@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import useHttp from "../utils/apiHttp";
 import { savePost } from "../redux/postSlice";
+import { useSelector } from "react-redux";
 
 function CreatePost({ setShow }) {
+  const user = useSelector((state) => state.user.user);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const { request } = useHttp();
@@ -22,7 +24,12 @@ function CreatePost({ setShow }) {
       return;
     }
     console.log("click");
-    const newPost = { title: title, body: body, user: "jdhaja726gh" };
+    const newPost = {
+      title: title,
+      body: body,
+      user: user.id,
+      userName: user.firstName + " " + user.lastName,
+    };
 
     if (mounted.current) {
       request(
@@ -47,7 +54,7 @@ function CreatePost({ setShow }) {
 
   return (
     <form
-      className="bg-gray-300 py-8 px-16 rounded-lg absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"
+      className="bg-white w-full md:w-4/5 border-4 border-black py-8 px-16 rounded-lg absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 font-bold"
       onSubmit={onSubmit}
     >
       <div className="flex justify-between">
@@ -80,7 +87,7 @@ function CreatePost({ setShow }) {
       </div>
       <button
         type="submit"
-        className="bg-green-700 text-white my-8 py-2 px-4 rounded shadow-md"
+        className="bg-btnbg  text-black font-black my-8 py-2 px-4 rounded shadow-md"
       >
         Save post
       </button>
