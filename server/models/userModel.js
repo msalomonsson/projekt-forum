@@ -1,11 +1,12 @@
 const db = require("../firebase");
 
 module.exports = class User {
-  constructor(lastName, firstName, email, id) {
+  constructor(lastName, firstName, email, id, profilePic) {
     this.lastName = lastName;
     this.firstName = firstName;
     this.email = email;
     this.id = id;
+    this.profilePic = profilePic;
   }
 
   saveUser = async () => {
@@ -15,6 +16,7 @@ module.exports = class User {
       email: this.email,
       id: this.id,
       posts: [],
+      profilePic: this.profilePic,
     };
 
     const docRef = db.collection("users").doc();

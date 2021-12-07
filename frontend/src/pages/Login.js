@@ -1,16 +1,15 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useHttp from "../utils/apiHttp";
 
 function Login() {
   const { loading, error, request } = useHttp();
-  let navigate = useNavigate();
 
   return (
     <div>
-      <button>
+      <div className="sm:container flex justify-center content-center">
         <a href="/auth/google">Log In with google</a>
-      </button>
+      </div>
     </div>
   );
 }

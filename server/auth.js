@@ -25,10 +25,11 @@ passport.use(
 
       if (!existingUser) {
         const newUser = new User(
-          profile._json.family_name,
-          profile._json.given_name,
+          profile._json.family_name ? profile._json.family_name : null,
+          profile._json.given_name ? profile._json.given_name : null,
           profile._json.email,
-          profile.id
+          profile.id,
+          profile._json.picture
         );
 
         await newUser.saveUser();
