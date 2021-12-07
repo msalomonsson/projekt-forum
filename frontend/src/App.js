@@ -20,11 +20,13 @@ function App() {
   }, [request, user]);
 
   return (
-    <div className="App bg-background min-h-screen">
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-      </Routes>
+    <div className="App bg-background min-h-screen ">
+      <div className="container mx-auto">
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/login" element={<Login />} />
+        </Routes>
+      </div>
     </div>
   );
 }
