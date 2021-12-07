@@ -38,11 +38,24 @@ exports.editPost = async (req, res) => {
   let data = req.body;
   const post = new postModule(data);
   post.editPost().then((doc) => {
+    let time = () => {
+      let stringified = doc
+        .data()
+        .createad_at.toDate()
+        .toLocaleString("sv", { timeZoneName: "short" });
+      var split1 = stringified.split("T");
+      var split1 = stringified.split("CE");
+      var date = split1[0].replace(/\-/g, "-");
+
+      return date;
+    };
+
     let post = {
       data: doc.data(),
       id: doc.id,
       time: time(),
     };
+
     res.json(post);
   });
 };

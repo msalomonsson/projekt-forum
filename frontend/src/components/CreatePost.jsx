@@ -15,7 +15,7 @@ function CreatePost({ setShow }) {
     return () => {
       mounted.current = false;
     };
-  }, [mounted.current]);
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -24,17 +24,14 @@ function CreatePost({ setShow }) {
       return;
     }
 
-
-   
-
     console.log("click");
     const newPost = {
       title: title,
       body: body,
       user: user.id,
       userName: user.firstName + " " + user.lastName,
+      userProfilePic: user.profilePic,
     };
-
 
     if (mounted.current) {
       request(
@@ -58,12 +55,11 @@ function CreatePost({ setShow }) {
   };
 
   return (
-
-    <div className="bg-transBg w-screen h-screen absolute top-0 left-0">
+    <div className="bg-transBg w-full min-h-full  absolute top-0 left-0">
       <form
-        className="w-10/12 xl:w-8/12 bg-white py-8 px-16 rounded-lg absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 z-10"
+        className="w-10/12 xl:w-8/12 bg-white py-8 px-16 rounded-lg absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 z-40"
         onSubmit={onSubmit}
- >
+      >
         <div className="flex justify-between">
           <h3 className="uppercase font-bold text-lg text-background">
             New Post

@@ -26,6 +26,7 @@ export const postSlice = createSlice({
         if (post.id === action.payload.id) {
           post.data.title = action.payload.data.title;
           post.data.body = action.payload.data.body;
+          post.time = action.payload.time;
         }
         return post;
       });

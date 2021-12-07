@@ -1,11 +1,9 @@
 import React from "react";
-import useHttp from "../utils/apiHttp";
+
 import ForumLogo from "../components/ForumLogo";
 import GoogleLogo from "../components/GoogleLogo";
 
 function Login() {
-  const { loading, error, request } = useHttp();
-
   return (
     <div className="h-screen flex justify-center items-center container">
       <div className="bg-secondary w-4/12 h-4/6 flex justify-center rounded">

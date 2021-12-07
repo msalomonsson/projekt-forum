@@ -6,17 +6,13 @@ import EditPost from "./EditPost";
 
 import { useSelector } from "react-redux";
 
-
 const Post = (props) => {
   const { request } = useHttp();
   const mounted = useRef(true);
-
   const [show, setShow] = useState(false);
-
   const user = useSelector((state) => state.user.user);
   const [name, setName] = useState("");
   const [likes, setLikes] = useState(props.data.data.likes);
-
 
   useEffect(() => {
     mounted.current = true;
@@ -48,7 +44,7 @@ const Post = (props) => {
           <div className="">
             <img
               className="inline-block h-10 w-10 rounded-full ring-2 ring-black"
-              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+              src={props.data.data.profilePic}
               alt=""
             />
           </div>
@@ -72,13 +68,7 @@ const Post = (props) => {
         {/* Buttons */}
         <div className="flex justify-between mt-20">
           <div className="flex gap-5">
-
-
-
-        
-          
             {show && <EditPost setShow={setShow} post={props.data} />}
-  
 
             <button className="comment">
               <svg
@@ -99,7 +89,7 @@ const Post = (props) => {
             <button className="flex likes" onClick={handleLike}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-6 w-6 hover:text-red-500 "
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -113,14 +103,13 @@ const Post = (props) => {
               </svg>
               <p className="font-bold">{likes}</p>
             </button>
-
           </div>
           {user && user.id === props.data.data.user_id ? (
             <div className="flex gap-5">
               <button onClick={() => setShow(true)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-6 w-6 hover:text-btnbg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -136,7 +125,7 @@ const Post = (props) => {
               <button onClick={handleDelete}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-6 w-6 hover:text-red-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
