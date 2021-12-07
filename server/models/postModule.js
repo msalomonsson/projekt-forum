@@ -2,11 +2,12 @@ const db = require("../firebase");
 const { Timestamp } = require("firebase-admin/firestore");
 
 module.exports = class Post {
-  constructor({ title, body, user, id }) {
+  constructor({ title, body, user, id, userName }) {
     (this.title = title),
       (this.body = body),
       (this.user = user),
       (this.id = id);
+    this.userName = userName;
   }
 
   static fetchAll = async () => {
@@ -42,6 +43,7 @@ module.exports = class Post {
       title: this.title,
       body: this.body,
       user_id: this.user,
+      userName: this.userName,
       likes: 0,
       comments: null,
       createad_at: Timestamp.now(),
@@ -52,7 +54,6 @@ module.exports = class Post {
     await docRef.set(data);
 
     return await docRef.get((doc) => {});
-
   };
 
   static deletePost = async (id) => {
@@ -61,6 +62,5 @@ module.exports = class Post {
     const res = db.collection("posts").doc(id);
 
     await res.delete();
-
   };
 };
