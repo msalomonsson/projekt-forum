@@ -26,4 +26,6 @@ router.get("/success", isLoggedInMiddleWare, authControllers.success);
 
 router.get("/logout", authControllers.logout);
 
+router.get("/findUser/:id", authControllers.findUserByID);
+
 module.exports = router;

@@ -1,13 +1,11 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import useHttp from "./utils/apiHttp";
-import { useSelector } from "react-redux";
-import { storeUser } from "./redux/userSlice";
+import Navbar from "./components/Navbar";
 
 function App() {
+
   const { request } = useHttp();
   const user = useSelector((state) => state.user.user);
 
@@ -18,15 +16,20 @@ function App() {
       request({ url: "/auth/success" }, storeUser);
     }
   }, [request, user]);
-  //test hej
+
   return (
-    <div className="App bg-background min-h-screen">
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-      </Routes>
-    </div>
-  );
+    <div className="App bg-background min-h-screen ">
+      <div className="container mx-auto">
+        <Navbar></Navbar>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/login" element={<Login />} />
+        </Routes>
+      </div>
+      </div>
+
+
+ 
 }
 
 export default App;
