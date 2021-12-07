@@ -32,6 +32,10 @@ export default function Home() {
     <div className="container mx-auto ">
       <h1>Home</h1>
 
+
+      
+       
+
       <div className="flex justify-between items-center ">
         {/* Seach */}
         <label className="w-full mr-5 relative">
@@ -60,14 +64,27 @@ export default function Home() {
         {/* Create button */}
         {
           <div>
-            <button
-              className="bg-btnbg  text-black font-bold h-10  px-14 rounded shadow-md"
-              onClick={() => setShow(true)}
-            >
-              Skapa
-            </button>
+           <button
+          className="bg-btnbg text-background flex items-center uppercase text-xs font-bold my-8 py-2 px-4 rounded shadow-md"
+          onClick={() => setShow(true)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
+          </svg>{" "}
+          <p>New post</p>
+        </button>
           </div>
         }
+
       </div>
 
       {show && <CreatePost setShow={setShow} />}
