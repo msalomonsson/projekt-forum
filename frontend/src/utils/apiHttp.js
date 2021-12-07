@@ -23,6 +23,7 @@ const useHttp = () => {
         }
 
         const data = await response.json();
+
         dispatch(dispatchFunc(data));
       } catch (error) {
         seterror(error.message || "Something went wrong");
