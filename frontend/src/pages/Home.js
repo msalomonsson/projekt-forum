@@ -103,6 +103,7 @@ export default function Home() {
           .map((post, i) => {
             return <Post key={i} data={post} />;
           })}
+
     </div>
   );
 }
