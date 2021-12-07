@@ -1,14 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import useHttp from "../utils/apiHttp";
 import { deletePost } from "../redux/postSlice";
+
+import EditPost from "./EditPost";
+
 import { useSelector } from "react-redux";
+
 
 const Post = (props) => {
   const { request } = useHttp();
   const mounted = useRef(true);
+
+  const [show, setShow] = useState(false);
+
   const user = useSelector((state) => state.user.user);
   const [name, setName] = useState("");
   const [likes, setLikes] = useState(props.data.data.likes);
+
 
   useEffect(() => {
     mounted.current = true;
@@ -64,6 +72,14 @@ const Post = (props) => {
         {/* Buttons */}
         <div className="flex justify-between mt-20">
           <div className="flex gap-5">
+
+
+
+        
+          
+            {show && <EditPost setShow={setShow} post={props.data} />}
+  
+
             <button className="comment">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,10 +113,11 @@ const Post = (props) => {
               </svg>
               <p className="font-bold">{likes}</p>
             </button>
+
           </div>
           {user && user.id === props.data.data.user_id ? (
             <div className="flex gap-5">
-              <button>
+              <button onClick={() => setShow(true)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"

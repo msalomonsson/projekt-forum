@@ -34,6 +34,19 @@ exports.savePost = async (req, res) => {
   });
 };
 
+exports.editPost = async (req, res) => {
+  let data = req.body;
+  const post = new postModule(data);
+  post.editPost().then((doc) => {
+    let post = {
+      data: doc.data(),
+      id: doc.id,
+      time: time(),
+    };
+    res.json(post);
+  });
+};
+
 exports.deletePost = async (req, res) => {
   let id = req.params.id;
 

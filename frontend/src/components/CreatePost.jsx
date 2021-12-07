@@ -23,6 +23,10 @@ function CreatePost({ setShow }) {
       alert("Add Title and body");
       return;
     }
+
+
+   
+
     console.log("click");
     const newPost = {
       title: title,
@@ -30,6 +34,7 @@ function CreatePost({ setShow }) {
       user: user.id,
       userName: user.firstName + " " + user.lastName,
     };
+
 
     if (mounted.current) {
       request(
