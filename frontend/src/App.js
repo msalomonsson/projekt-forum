@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import useHttp from "./utils/apiHttp";
 import { storeUser } from "./redux/userSlice";
 import { useSelector } from "react-redux";
+import Profile from "./components/Profile";
 
 function App() {
   const { request } = useHttp();
@@ -27,6 +28,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </div>
