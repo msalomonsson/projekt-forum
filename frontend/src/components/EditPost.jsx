@@ -43,9 +43,9 @@ function EditPost({ setShow, post }) {
   };
 
   return (
-    <div className="bg-transBg w-full h-screen absolute top-0 left-0">
+    <div className="bg-transBg fixed top-0 left-0 bottom-0 right-0 z-30 flex justify-center items-center">
       <form
-        className="w-10/12 xl:w-8/12 bg-white py-8 px-16 rounded-lg absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 z-10"
+        className="w-10/12 xl:w-8/12 bg-white py-8 px-16 rounded-lg"
         onSubmit={onSubmit}
       >
         <div className="flex justify-between">

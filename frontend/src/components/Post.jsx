@@ -37,8 +37,8 @@ const Post = (props) => {
   };
 
   return (
-    <div className=" mx-auto ">
-      <div className="mt-5 border-2 p-5 rounded bg-primary text-left ">
+    <div className="mx-auto">
+      <div className="mt-8 border-2 p-5 rounded bg-primary text-left ">
         {/* Post data */}
         <div className="flex gap-5 ">
           <div className="">

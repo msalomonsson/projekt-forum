@@ -30,14 +30,14 @@ export default function Home() {
   }
 
   return (
-    <div className="container mx-auto h-full ">
-      <div className="flex justify-between items-center mt-5">
+    <div className="container mx-auto h-full pb-24 mt-8">
+      <div className="flex justify-between items-center">
         {/* Seach */}
-        <label className="w-full mr-5 relative">
+        <label className="w-full relative">
           <input
             type="search"
-            className="border-2 border-gray-300 bg-white h-10  rounded-lg text-sm focus:outline-none  w-full"
-            placeholder="Search"
+            className="border-2 border-gray-300 bg-white h-8 rounded p-4 text-base focus:outline-none w-full"
+            placeholder="Search..."
             onChange={(e) => setSearch(e.target.value)}
           ></input>
           <svg
@@ -58,7 +58,7 @@ export default function Home() {
 
         {/* Create button */}
         {user && (
-          <div>
+          <div className="ml-8">
             <button
               className="bg-btnbg text-background flex items-center uppercase text-xs font-bold my-8 py-2 px-4 rounded shadow-md w-28 "
               onClick={() => setShow(true)}
