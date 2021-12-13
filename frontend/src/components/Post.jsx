@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useHttp from "../utils/apiHttp";
 import { deletePost } from "../redux/postSlice";
-
 import EditPost from "./EditPost";
-
 import { useSelector } from "react-redux";
 
 const Post = (props) => {
