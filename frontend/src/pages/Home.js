@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { useSelector } from "react-redux";
 import useHttp from "../utils/apiHttp";
 import { storePosts } from "../redux/postSlice";
@@ -6,7 +7,11 @@ import { storePosts } from "../redux/postSlice";
 import Post from "../components/Post";
 
 import CreatePost from "../components/CreatePost";
+
 import { storeComments } from "../redux/commentSlice";
+
+import Filter from "../components/Filter";
+
 
 export default function Home() {
   const { loading, error, request } = useHttp();
@@ -14,6 +19,7 @@ export default function Home() {
   const user = useSelector((state) => state.user.user);
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
+  const [filterOption, setFilterOption] = useState("1");
 
   useEffect(() => {
     if (posts) {
@@ -22,6 +28,36 @@ export default function Home() {
     request({ url: "/posts/allPost" }, storePosts);
     request({ url: "/comments/allComments" }, storeComments);
   }, [posts, request]);
+
+  const handleFilterValue = (filterVal) => {
+    setFilterOption(filterVal);
+  };
+
+  const handleFilterList = (arr) => {
+    let filteredArray;
+    switch (filterOption) {
+      case "1":
+        filteredArray = [...arr].sort(
+          (a, b) => moment(b.time) - moment(a.time)
+        );
+        return filteredArray;
+      case "2":
+        filteredArray = [...arr].sort(
+          (a, b) => moment(a.time) - moment(b.time)
+        );
+        return filteredArray;
+
+      case "3":
+        if ([...arr].every((el) => el.data.likes === 0)) {
+          return [...arr];
+        }
+        filteredArray = [...arr].sort((a, b) => b.data.likes - a.data.likes);
+        console.log(filteredArray);
+        return filteredArray;
+      default:
+        break;
+    }
+  };
 
   if (loading) {
     return <div>Loading..</div>;
@@ -83,10 +119,11 @@ export default function Home() {
         )}
       </div>
 
-      {show && <CreatePost setShow={setShow} />}
+      <Filter filterValue={handleFilterValue} />
 
-      {posts != null &&
-        posts
+      {show && <CreatePost setShow={setShow} />}
+      {posts &&
+        handleFilterList(posts)
           .filter((post) => {
             if (search === "") {
               return post;
