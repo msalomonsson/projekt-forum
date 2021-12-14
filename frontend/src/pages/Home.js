@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useHttp from "../utils/apiHttp";
-import { storePosts } from "../redux/postSlice";
+import { storePosts, setLikes } from "../redux/postSlice";
 
 import Post from "../components/Post";
 
@@ -10,6 +10,7 @@ import CreatePost from "../components/CreatePost";
 export default function Home() {
   const { loading, error, request } = useHttp();
   const posts = useSelector((state) => state.post.posts);
+  const likes = useSelector((state) => state.post.likes);
   const user = useSelector((state) => state.user.user);
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState("");
@@ -18,8 +19,12 @@ export default function Home() {
     if (posts) {
       return;
     }
+    if (likes) {
+      return;
+    }
+    request({ url: "/posts/likes" }, setLikes);
     request({ url: "/posts/allPost" }, storePosts);
-  }, [posts, request]);
+  }, [likes, posts, request]);
 
   if (loading) {
     return <div>Loading..</div>;
@@ -83,6 +88,7 @@ export default function Home() {
 
       {show && <CreatePost setShow={setShow} />}
 
+      {/* Posts */}
       {posts != null &&
         posts
           .filter((post) => {

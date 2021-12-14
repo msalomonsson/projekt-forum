@@ -1,21 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import useHttp from "../utils/apiHttp";
-import { deletePost } from "../redux/postSlice";
+import { deletePost, likePost, unlikePost } from "../redux/postSlice";
+import { useDispatch } from "react-redux";
 
 import EditPost from "./EditPost";
 
 import { useSelector } from "react-redux";
 
 const Post = (props) => {
+  const dispatch = useDispatch();
   const { request } = useHttp();
   const mounted = useRef(true);
-  const [show, setShow] = useState(false);
   const user = useSelector((state) => state.user.user);
+  const likes = useSelector((state) => state.post.likes);
   const [name, setName] = useState("");
-  const [likes, setLikes] = useState(props.data.data.likes);
+  const [show, setShow] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     mounted.current = true;
+    let id = props.data.id;
+    if (user) {
+      likes.forEach((like) => {
+        if (like.data.post_id == id && like.data.user_id == user.id) {
+          setLiked(true);
+        }
+      });
+    }
 
     request({ url: `/auth/findUser/${props.data.data.user_id}` }, setName);
 
@@ -33,7 +44,32 @@ const Post = (props) => {
   };
 
   const handleLike = (e) => {
-    setLikes(likes + 1);
+    let id = props.data.id;
+
+    if (mounted.current) {
+      if (user) {
+        request({ url: `posts/${id}/like` });
+
+        const obj = {
+          data: {
+            post_id: id,
+            user_id: user.id,
+          },
+        };
+
+        if (
+          likes.some(
+            (like) => like.data.post_id == id && like.data.user_id == user.id
+          )
+        ) {
+          dispatch(unlikePost(obj));
+          setLiked(false);
+        } else {
+          dispatch(likePost(obj));
+          setLiked(true);
+        }
+      }
+    }
   };
 
   return (
@@ -70,6 +106,7 @@ const Post = (props) => {
           <div className="flex gap-5">
             {show && <EditPost setShow={setShow} post={props.data} />}
 
+            {/* Comment icon */}
             <button className="comment">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,26 +123,46 @@ const Post = (props) => {
                 />
               </svg>
             </button>
-            <button className="flex likes" onClick={handleLike}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 hover:text-red-500 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
-              <p className="font-bold">{likes}</p>
+
+            {/* Like icon */}
+            <button className="flex items-center likes" onClick={handleLike}>
+              {!liked ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-red-800"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+
+              <p className="font-bold">{props.data.data.likes} likes</p>
             </button>
           </div>
+
           {user && user.id === props.data.data.user_id ? (
             <div className="flex gap-5">
+              {/* Edit icon */}
               <button onClick={() => setShow(true)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,6 +179,7 @@ const Post = (props) => {
                   />
                 </svg>
               </button>
+              {/* Delete icon */}
               <button onClick={handleDelete}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

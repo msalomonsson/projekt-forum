@@ -12,6 +12,12 @@ router.delete("/deletePost/:id", postsController.deletePost);
 
 router.patch("/editPost/:id", postsController.editPost);
 
+router.get("/:id/like", postsController.likePost);
+
+router.get("/:id/unlike", postsController.unlikePost);
+
+router.get("/likes", postsController.likes);
+
 router.get("/", (req, res) => {
   res.send("Posts Api");
 });
