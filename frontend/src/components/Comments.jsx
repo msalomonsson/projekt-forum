@@ -62,7 +62,7 @@ const Comments = ({ props }) => {
   };
 
   return (
-    <div>
+    <div className="mb-20">
       {/* Comment Form */}
       {user && (
         <form onSubmit={handleSubmit} className="my-5">
