@@ -20,6 +20,7 @@ const Navbar = () => {
               <button className="bg-indigo-500 text-white text-xs font-bold py-2 px-4 rounded-full shadow-md w-28 ">
                 <span>Login</span>
               </button>
+
             </Link>
           ) : (
             <div className="flex items-center gap-8">
@@ -47,6 +48,19 @@ const Navbar = () => {
           )}
         </div>
       </nav>
+
+            </a>
+            <Link to="/profile">
+              <img
+                className="inline-block h-12 w-12 rounded-full items-center "
+                src={user && user.profilePic}
+                alt=""
+              />
+            </Link>
+          </div>
+        )}
+      </div>
+
     </div>
   );
 };
