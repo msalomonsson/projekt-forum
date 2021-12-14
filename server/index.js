@@ -9,6 +9,7 @@ require("./auth");
 
 const postsRoutes = require("./routes/posts.js");
 const authRoutes = require("./routes/auth.js");
+const commentsRoutes = require("./routes/comments.js");
 
 const PORT = process.env.PORT || 3001;
 
@@ -32,6 +33,8 @@ app.use(passport.session());
 app.use("/posts", postsRoutes);
 
 app.use("/auth", authRoutes);
+
+app.use("/comments", commentsRoutes);
 
 app.get("/", (req, res) => {
   res.send("Forum api");

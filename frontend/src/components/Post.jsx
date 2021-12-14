@@ -1,28 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
 import useHttp from "../utils/apiHttp";
 import { deletePost } from "../redux/postSlice";
-
 import EditPost from "./EditPost";
-
 import { useSelector } from "react-redux";
+import Comments from "./Comments";
 
 const Post = (props) => {
   const { request } = useHttp();
   const mounted = useRef(true);
   const [show, setShow] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const user = useSelector((state) => state.user.user);
   const [name, setName] = useState("");
   const [likes, setLikes] = useState(props.data.data.likes);
+  const stateComments = useSelector((state) => state.comments.comments);
 
   useEffect(() => {
     mounted.current = true;
 
-    request({ url: `/auth/findUser/${props.data.data.user_id}` }, setName);
+    // request({ url: `/auth/findUser/${props.data.data.user_id}` }, setName);
 
     return () => {
       mounted.current = false;
     };
   }, [props.data.data.user_id, request]);
+
+  const getCommentsById = () => {
+    let comments = [];
+    stateComments.filter((comment) => {
+      if (comment.data.post_id === props.data.id) {
+        comments.push(comment);
+      }
+      return null;
+    });
+    return comments;
+  };
 
   const handleDelete = (e) => {
     let id = props.data.id;
@@ -70,7 +82,12 @@ const Post = (props) => {
           <div className="flex gap-5">
             {show && <EditPost setShow={setShow} post={props.data} />}
 
-            <button className="comment">
+            <button
+              className="comment flex"
+              onClick={() => {
+                setShowComments(!showComments);
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -85,11 +102,12 @@ const Post = (props) => {
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 />
               </svg>
+              <p className="font-bold">{getCommentsById().length}</p>
             </button>
             <button className="flex likes" onClick={handleLike}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 hover:text-red-500 "
+                className="h-6 w-6 hover:text-red-500  "
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -106,7 +124,11 @@ const Post = (props) => {
           </div>
           {user && user.id === props.data.data.user_id ? (
             <div className="flex gap-5">
-              <button onClick={() => setShow(true)}>
+              <button
+                onClick={() => {
+                  setShow(true);
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 hover:text-btnbg"
@@ -142,6 +164,8 @@ const Post = (props) => {
           ) : null}
         </div>
       </div>
+
+      {showComments && <Comments props={props} />}
     </div>
   );
 };
