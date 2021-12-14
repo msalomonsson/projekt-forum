@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useHttp from "../utils/apiHttp";
-
 import { deletePost, likePost, unlikePost } from "../redux/postSlice";
 import { useDispatch } from "react-redux";
-
-
 import EditPost from "./EditPost";
 import { useSelector } from "react-redux";
 import Comments from "./Comments";
@@ -13,38 +10,30 @@ const Post = (props) => {
   const dispatch = useDispatch();
   const { request } = useHttp();
   const mounted = useRef(true);
-
-
   const [showComments, setShowComments] = useState(false);
-
   const user = useSelector((state) => state.user.user);
   const likes = useSelector((state) => state.post.likes);
-  const [name, setName] = useState("");
-
   const [show, setShow] = useState(false);
   const [liked, setLiked] = useState(false);
-
-
   const stateComments = useSelector((state) => state.comments.comments);
-
 
   useEffect(() => {
     mounted.current = true;
+    setLiked(false);
+
     let id = props.data.id;
-    if (user) {
+    if (user && likes) {
       likes.forEach((like) => {
-        if (like.data.post_id == id && like.data.user_id == user.id) {
+        if (like.data.post_id === id && like.data.user_id === user.id) {
           setLiked(true);
         }
       });
     }
 
-    // request({ url: `/auth/findUser/${props.data.data.user_id}` }, setName);
-
     return () => {
       mounted.current = false;
     };
-  }, [props.data.data.user_id, request]);
+  }, [props.data.data.user_id, request, likes, user, props.data.id]);
 
   const getCommentsById = () => {
     let comments = [];
@@ -81,7 +70,7 @@ const Post = (props) => {
 
         if (
           likes.some(
-            (like) => like.data.post_id == id && like.data.user_id == user.id
+            (like) => like.data.post_id === id && like.data.user_id === user.id
           )
         ) {
           dispatch(unlikePost(obj));
@@ -109,9 +98,7 @@ const Post = (props) => {
           <div>
             <div className="flex gap-5 ">
               <h2>
-                {props.data.data.userName
-                  ? props.data.data.userName
-                  : name && name.firstName + " " + name.lastName}
+                {props.data.data.userName ? props.data.data.userName : null}
               </h2>
               <h5>{props.data.time}</h5>
             </div>
@@ -128,15 +115,14 @@ const Post = (props) => {
           <div className="flex gap-5">
             {show && <EditPost setShow={setShow} post={props.data} />}
 
-
             {/* Comment icon */}
-          
+
             <button
               className="comment flex"
               onClick={() => {
                 setShowComments(!showComments);
               }}
-
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -153,7 +139,6 @@ const Post = (props) => {
               </svg>
               <p className="font-bold">{getCommentsById().length}</p>
             </button>
-
 
             {/* Like icon */}
             <button className="flex items-center likes" onClick={handleLike}>
@@ -188,16 +173,13 @@ const Post = (props) => {
               )}
 
               <p className="font-bold">{props.data.data.likes} likes</p>
-
             </button>
           </div>
 
           {user && user.id === props.data.data.user_id ? (
             <div className="flex gap-5">
-
               {/* Edit icon */}
               <button onClick={() => setShow(true)}>
-
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 hover:text-btnbg"

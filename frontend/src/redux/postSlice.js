@@ -22,7 +22,6 @@ export const postSlice = createSlice({
     },
 
     editPost: (state, action) => {
-      console.log(action.payload);
       const posts = state.posts.map((post) => {
         if (post.id === action.payload.id) {
           post.data.title = action.payload.data.title;
@@ -57,8 +56,8 @@ export const postSlice = createSlice({
     unlikePost: (state, action) => {
       const deleteLike = state.likes.findIndex(
         (like) =>
-          like.data.post_id == action.payload.data.post_id &&
-          like.data.user_id == action.payload.data.user_id
+          like.data.post_id === action.payload.data.post_id &&
+          like.data.user_id === action.payload.data.user_id
       );
 
       state.likes.splice(deleteLike, 1);

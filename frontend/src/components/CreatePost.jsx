@@ -24,7 +24,6 @@ function CreatePost({ setShow }) {
       return;
     }
 
-    console.log("click");
     const newPost = {
       title: title,
       body: body,

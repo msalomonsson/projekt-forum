@@ -102,15 +102,10 @@ module.exports = class User {
   };
 
   static deleteComment = async (id) => {
-    console.log(id);
-
     const res = db.collection("comments").doc(id);
     await res.delete();
 
     let commentId = await res.get();
-
-    console.log(commentId.id);
-    console.log(this.id);
 
     // const postRef = db.collection("posts").doc(this.id);
     // await postRef.update({

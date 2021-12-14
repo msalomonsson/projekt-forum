@@ -12,7 +12,6 @@ import { storeComments } from "../redux/commentSlice";
 
 import Filter from "../components/Filter";
 
-
 export default function Home() {
   const { loading, error, request } = useHttp();
   const posts = useSelector((state) => state.post.posts);
@@ -32,9 +31,7 @@ export default function Home() {
     request({ url: "/posts/likes" }, setLikes);
     request({ url: "/posts/allPost" }, storePosts);
     request({ url: "/comments/allComments" }, storeComments);
-
   }, [likes, posts, request]);
-
 
   const handleFilterValue = (filterVal) => {
     setFilterOption(filterVal);
@@ -59,7 +56,7 @@ export default function Home() {
           return [...arr];
         }
         filteredArray = [...arr].sort((a, b) => b.data.likes - a.data.likes);
-        console.log(filteredArray);
+
         return filteredArray;
       default:
         break;
@@ -129,7 +126,6 @@ export default function Home() {
       <Filter filterValue={handleFilterValue} />
 
       {/* Posts */}
-
 
       {show && <CreatePost setShow={setShow} />}
       {posts &&

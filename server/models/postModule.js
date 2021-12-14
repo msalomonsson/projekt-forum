@@ -63,8 +63,6 @@ module.exports = class Post {
   };
 
   static deletePost = async (id) => {
-    console.log(id);
-
     const res = db.collection("posts").doc(id);
 
     await res.delete();
