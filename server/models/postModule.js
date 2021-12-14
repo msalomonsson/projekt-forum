@@ -13,7 +13,10 @@ module.exports = class Post {
   }
 
   static fetchAll = async () => {
-    const snapshot = await db.collection("posts").get();
+    const snapshot = await db
+      .collection("posts")
+      .orderBy("createad_at", "desc")
+      .get();
 
     let data = [];
 

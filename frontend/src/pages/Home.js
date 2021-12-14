@@ -7,7 +7,11 @@ import { storePosts } from "../redux/postSlice";
 import Post from "../components/Post";
 
 import CreatePost from "../components/CreatePost";
+
+import { storeComments } from "../redux/commentSlice";
+
 import Filter from "../components/Filter";
+
 
 export default function Home() {
   const { loading, error, request } = useHttp();
@@ -22,6 +26,7 @@ export default function Home() {
       return;
     }
     request({ url: "/posts/allPost" }, storePosts);
+    request({ url: "/comments/allComments" }, storeComments);
   }, [posts, request]);
 
   const handleFilterValue = (filterVal) => {
