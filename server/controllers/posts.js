@@ -1,4 +1,5 @@
 const postModule = require("../models/postModule.js");
+const db = require("../firebase");
 
 exports.getPosts = async (req, res) => {
   const allPosts = await postModule.fetchAll();
@@ -68,4 +69,120 @@ exports.deletePost = async (req, res) => {
   res.json(id);
 
   // res.send(`Deleted post with id: ${id}`);
+};
+
+exports.likes = async (req, res) => {
+  const snapshot = await db.collection("likes").get();
+
+  let data = [];
+
+  snapshot.forEach((doc) => {
+    data.push({
+      data: doc.data(),
+    });
+  });
+  res.send(data);
+  return data;
+};
+
+exports.likePost = (req, res) => {
+  const likeDocument = db
+    .collection("likes")
+    .where("user_id", "==", req.user.id)
+    .where("post_id", "==", req.params.id)
+    .limit(1);
+
+  const postDocument = db.collection("posts").doc(req.params.id);
+
+  let postData;
+
+  postDocument
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        postData = doc.data();
+        postData.post_id = doc.id;
+        return likeDocument.get();
+      } else {
+        return res.status(404).json({ error: "Post not found" });
+      }
+    })
+    .then((data) => {
+      if (data.empty) {
+        return db
+          .collection("likes")
+          .add({
+            post_id: req.params.id,
+            user_id: req.user.id,
+          })
+          .then(() => {
+            postData.likes++;
+            return postDocument.update({ likes: postData.likes });
+          })
+          .then(() => {
+            return res.json(postData);
+          });
+      } else {
+        return db
+          .doc(`/likes/${data.docs[0].id}`)
+          .delete()
+          .then(() => {
+            postData.likes--;
+            return postDocument.update({ likes: postData.likes });
+          })
+          .then(() => {
+            res.json(postData);
+          });
+
+        /* return res.status(400).json({ error: "Scream already liked" }); */
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};
+
+exports.unlikePost = (req, res) => {
+  const likeDocument = db
+    .collection("likes")
+    /* .where("user_id", "==", req.user) */
+    .where("post_id", "==", req.params.id)
+    .limit(1);
+
+  const postDocument = db.doc(`/posts/${req.params.id}`);
+
+  let postData;
+
+  postDocument
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        postData = doc.data();
+        postData.post_id = doc.id;
+        return likeDocument.get();
+      } else {
+        return res.status(404).json({ error: "Post not found" });
+      }
+    })
+    .then((data) => {
+      if (data.empty) {
+        return res.status(400).json({ error: "Scream not liked" });
+      } else {
+        return db
+          .doc(`/likes/${data.docs[0].id}`)
+          .delete()
+          .then(() => {
+            postData.likes--;
+            return postDocument.update({ likes: postData.likes });
+          })
+          .then(() => {
+            res.json(postData);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
 };
